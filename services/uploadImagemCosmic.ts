@@ -23,6 +23,12 @@ const upload = multer({ storage: storage });
 
 const uploadImagemCosmic = async (req: any) => {
     if (req?.file?.originalname) {
+
+        if (!req.file.originalname.includes('.png')
+            && !req.file.originalname.includes('.jpg')
+            && !req.file.originalname.includes('.jpeg')
+        ) { throw new Error('Formato de imagem inválido!'); }
+
         const media_object = {
             originalname: req.file.originalname,
             buffer: req.file.buffer

@@ -46,9 +46,9 @@ const handler = nc()
             }
             await UsuarioModel.create(usuarioASerSalvo);
             return res.status(200).json({ msg: 'Usuário criado com sucesso!!!' });
-        } catch (e) {
+        } catch (e: any) {
             console.log(e);
-            return res.status(500).json({ erro: 'Erro ao cadastrar o usuário!!!' });
+            return res.status(400).json({ erro: e.toString() });
         }
     });
 
