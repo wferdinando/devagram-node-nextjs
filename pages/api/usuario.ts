@@ -19,7 +19,7 @@ const handler = nc()
             }
 
             const { nome } = req?.body;
-            if (nome && nome.length < 2) {
+            if (nome && nome.length > 2) {
                 usuario.nome = nome;
             }
             const { file } = req;
