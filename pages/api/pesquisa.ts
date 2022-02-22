@@ -9,17 +9,31 @@ const pesquisaEndPoint = async (req: NextApiRequest, res: NextApiResponse<Respos
     try {
 
         if (req.method === 'GET') {
+            if (req?.query.id) {
 
-            const { filtro } = req.query;
-            if (!filtro || filtro.length < 2) {
-                return res.status(400).json({ erro: 'Favor informar pelo menos 2 caracteres para busca' });
+                const usuarioEncontrado = await UsuarioModel.findById(req?.query?.id)
+                if (!usuarioEncontrado) {
+                    return res.status(400).json({ err: 'Usuário não encontado' });
+                }
+                usuarioEncontrado.senha = null;
+                return res.status(200).json(usuarioEncontrado);
+
+            } else {
+                const { filtro } = req.query;
+                if (!filtro || filtro.length < 2) {
+                    return res.status(400).json({ erro: 'Favor informar pelo menos 2 caracteres para busca' });
+                }
+
+                const usuariosEncontrados = await UsuarioModel.find({
+                    $or: [{ nome: { $regex: filtro, $options: 'i' } },
+                    { email: { $regex: filtro, $options: 'i' } }
+                    ]
+                });
+
+                usuariosEncontrados.forEach(e => e.senha = null);
+
+                return res.status(200).json(usuariosEncontrados);
             }
-            const usuariosEncontrados = await UsuarioModel.find({
-                $or: [{ nome: { $regex: filtro, $options: 'i' } },
-                { email: { $regex: filtro, $options: 'i' } }
-                ]
-            });
-            return res.status(200).json(usuariosEncontrados);
         }
 
         return res.status(500).json({ erro: 'Método informado não é válido!' });
