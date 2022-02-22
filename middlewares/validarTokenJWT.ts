@@ -2,7 +2,7 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 import type { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import type { RespostaPadraoMsg } from '../types/RespostaPadraoMsg';
 export const validarTokenJWT = (handler: NextApiHandler) =>
-    (req: NextApiRequest, res: NextApiResponse<RespostaPadraoMsg>) => {
+    (req: NextApiRequest, res: NextApiResponse<RespostaPadraoMsg | any[]>) => {
 
         try {
             const { MINHA_CHAVE_JWT } = process.env;
