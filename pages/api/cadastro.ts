@@ -1,3 +1,4 @@
+import { politicaCORS } from './../../middlewares/politicaCORS';
 import { UsuarioModel } from './../../models/UsuarioModel';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import type { RespostaPadraoMsg } from '../../types/RespostaPadraoMsg';
@@ -58,4 +59,4 @@ export const config = {
     }
 }
 
-export default conectarMongoDB(handler);
+export default politicaCORS(conectarMongoDB(handler));

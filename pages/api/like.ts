@@ -1,3 +1,4 @@
+import { politicaCORS } from './../../middlewares/politicaCORS';
 import { UsuarioModel } from './../../models/UsuarioModel';
 import { PublicacaoModel } from './../../models/PublicacaoModel';
 import { conectarMongoDB } from './../../middlewares/conectarMongoDB';
@@ -25,7 +26,7 @@ const likeEndpoint = async (req: NextApiRequest, res: NextApiResponse<RespostaPa
             }
 
             const indexDoUsuarioNoLike = publicacao.likes.findIndex((e: any) => e.toString() === usuario._id.toString());
-          
+
             if (indexDoUsuarioNoLike != -1) {
                 publicacao.likes.splice(indexDoUsuarioNoLike, 1);
                 await PublicacaoModel.findByIdAndUpdate({ _id: publicacao._id }, publicacao);
@@ -46,4 +47,4 @@ const likeEndpoint = async (req: NextApiRequest, res: NextApiResponse<RespostaPa
 
 }
 
-export default validarTokenJWT(conectarMongoDB(likeEndpoint));
+export default politicaCORS(validarTokenJWT(conectarMongoDB(likeEndpoint)));

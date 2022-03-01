@@ -1,3 +1,4 @@
+import { politicaCORS } from './../../middlewares/politicaCORS';
 import type {NextApiRequest, NextApiResponse} from 'next';
 import type {RespostaPadraoMsg} from '../../types/RespostaPadraoMsg';
 import {validarTokenJWT} from '../../middlewares/validarTokenJWT';
@@ -63,4 +64,4 @@ const feedEndpoint = async (req : NextApiRequest, res : NextApiResponse<Resposta
     return res.status(400).json({erro : 'Nao foi possivel obter o feed'});
 }
 
-export default validarTokenJWT(conectarMongoDB(feedEndpoint));
+export default  politicaCORS(validarTokenJWT(conectarMongoDB(feedEndpoint)));
